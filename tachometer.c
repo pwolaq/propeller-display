@@ -19,44 +19,44 @@ volatile unsigned int ICR1_B;
 extern volatile unsigned int angle;
 
 ISR(TIMER1_CAPT_vect){
-	static unsigned int ICR1_Current;
-	
-	ICR1_Current = ICR1;
-	
-	angle = 0;
-	
-	if(cycle == 0){
-	
-		TIFR |= (1<<TOV1);
-		TIMSK |= (1<<TOIE1);
+    static unsigned int ICR1_Current;
+    
+    ICR1_Current = ICR1;
+    
+    angle = 0;
+    
+    if(cycle == 0){
+    
+        TIFR |= (1<<TOV1);
+        TIMSK |= (1<<TOIE1);
 
-		overflows = 0;
-		ICR1_A = ICR1_Current;
-		
-	} else if(cycle ==  CYCLES * EDGES - 1){
+        overflows = 0;
+        ICR1_A = ICR1_Current;
+        
+    } else if(cycle ==  CYCLES * EDGES - 1){
 
-		TIMSK &= ~( (1<<TICIE1) | (1<<TOIE1) );
-		ICR1_B  = ICR1_Current;
-	   
-		unsigned long int ticks = (65536 * overflows - ICR1_A + ICR1_B) / CYCLES;
-		Timer_set(ticks);
-	}
+        TIMSK &= ~( (1<<TICIE1) | (1<<TOIE1) );
+        ICR1_B  = ICR1_Current;
+       
+        unsigned long int ticks = (65536 * overflows - ICR1_A + ICR1_B) / CYCLES;
+        Timer_set(ticks);
+    }
 
-	cycle++;
+    cycle++;
 }
 
 ISR(TIMER1_OVF_vect){
-	overflows++;
+    overflows++;
 }
 
 void Tachometer_run(void){
-	cycle = 0;
-	overflows = 0;
-	TIMSK |= (1<<TICIE1);
+    cycle = 0;
+    overflows = 0;
+    TIMSK |= (1<<TICIE1);
 }
 
 void Tachometer_init(void){
-	PORTE |= (1<<PE0);
-	TCCR1A = 0;
-	TCCR1B = (1<<CS10);
+    PORTE |= (1<<PE0);
+    TCCR1A = 0;
+    TCCR1B = (1<<CS10);
 }

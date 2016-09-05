@@ -14,22 +14,22 @@ volatile unsigned int prev = 0;
 
 int main(void)
 {
-	Leds_init();
-	Memory_init();
+    Leds_init();
+    Memory_init();
     Bluetooth_init();
-	Tachometer_init();
-	Timer_init();
-	
-	sei();
-	
-	Tachometer_run();
-	
-	while(1){
-		if(angle != prev){
-			prev = angle;
-			Leds_set((uint8_t*) &data[angle * LEDS_NUM * 3]);
-		}
-	}
-	
-	return 0;
+    Tachometer_init();
+    Timer_init();
+    
+    sei();
+    
+    Tachometer_run();
+    
+    while(1){
+        if(angle != prev){
+            prev = angle;
+            Leds_set((uint8_t*) &data[angle * LEDS_NUM * 3]);
+        }
+    }
+    
+    return 0;
 }
