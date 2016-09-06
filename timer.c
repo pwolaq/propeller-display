@@ -21,14 +21,11 @@ void Timer_stop(void){
     TCCR0 &= ~((1<<CS01)|(1<<CS00));
 }
 
-char buffer[10];
-
 void Timer_set(unsigned long int ticks){
     Timer_stop();
     uint8_t val = ((ticks/ANGLES/64) & 255);
     if(val != 0){
         OCR0 = val;
-        Bluetooth_send(buffer);
     }
     Timer_start();
     Tachometer_run();
