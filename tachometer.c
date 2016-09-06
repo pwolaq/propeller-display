@@ -26,6 +26,7 @@ ISR(TIMER1_CAPT_vect){
     angle = 0;
     
     if(cycle == 0){
+        // first cycle - reset overflow counter, init variables
     
         TIFR |= (1<<TOV1);
         TIMSK |= (1<<TOIE1);
@@ -34,6 +35,7 @@ ISR(TIMER1_CAPT_vect){
         ICR1_A = ICR1_Current;
         
     } else if(cycle ==  CYCLES * EDGES - 1){
+        // last cycle - calculate speed in cpu ticks
 
         TIMSK &= ~( (1<<TICIE1) | (1<<TOIE1) );
         ICR1_B  = ICR1_Current;

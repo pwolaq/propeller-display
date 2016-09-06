@@ -3,6 +3,13 @@
 #include "config.h"
 #include "leds.h"
 
+/*
+* Modified version of light weight WS2812 lib V2.0b by Tim (cpldcpu@gmail.com)
+* https://github.com/cpldcpu/light_ws2812
+* 
+* Instead of setting 3 led panels one by one, it sets them simultaneously
+*/
+
 void Leds_init(void){
     LEDS_DDR_A |= _BV(LEDS_PIN_A);
     LEDS_DDR_B |= _BV(LEDS_PIN_B);

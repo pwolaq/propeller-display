@@ -39,6 +39,7 @@ void Bluetooth_send(char *buffer){
 void Bluetooth_reset(void){
     percent = 0;
     
+    // reset progress bar
     for(int i=0;i<LEDS_NUM*3;i+=3){
         progress[i] = 0;
         progress[i+1] = 31;
@@ -71,6 +72,7 @@ ISR(USART_RX_vect)
     
     data[_index++] = received;
     
+    // show progress bar
     if(_index >= step * percent){
         uint8_t *ptr = (uint8_t*) &progress[percent*3];
         *(ptr++) = 31;
@@ -80,6 +82,7 @@ ISR(USART_RX_vect)
         Leds_set((uint8_t*) progress);
     }
     
+    // display image
     if(_index == DATA_SIZE){
         _index = 0;
         _delay_us(10);
